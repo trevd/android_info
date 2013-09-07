@@ -82,6 +82,8 @@ sleep 2
 echo "Killing Previous dpkg instances"
 sudo pkill -9 dpkg
 
+echo "Auto Accepting Sun License for jdk5 and 6"
+sudo echo sun-java5-bin	shared/accepted-sun-dlj-v1-1 select true | sudo /usr/bin/debconf-set-selections -v
 # Install both jdk's you never know when you might need to build Pre Gingerbread
 echo -e "Installing Java\nInstalling sun-java5-jdk" 
 sudo apt-get --yes install sun-java5-jdk
@@ -98,6 +100,10 @@ sudo apt-get --yes  install oracle-java7-installer
 # of Android on a single OS. 
 echo "Installing oracle-java6-installer" 
 sudo apt-get --yes  install oracle-java6-installer
+
+# Install ant for build sdk based apps
+echo "Installing apache ant" 
+sudo apt-get --yes  install ant
 
 # GCC - We install multiple versions of gcc so we can use the same Operating System Version
 # to build all versions of Android - gcc 4.4 is capable of building early version of Android
@@ -119,6 +125,11 @@ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 40 --slave 
 echo "Installing GCC 4.7"
 sudo apt-get --yes install gcc-4.7 gcc-4.7-multilib g++-4.7 g++-4.7-multilib
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.7
+
+#
+#
+#
+
 
 
 # Baseline AOSP Tool List
@@ -169,7 +180,7 @@ schedtool ubuntu-dev-tools
 echo "Installing lzop lzma zip xz archive support"
 sudo apt-get --yes install lzop zip xz-utils zlib1g-dev p7zip-full
  
- echo "Installing linaro-image-tools"
+echo "Installing linaro-image-tools"
 sudo apt-get --yes  install linaro-image-tools 
 fi
 shift
