@@ -111,13 +111,13 @@ sudo apt-get --yes  install oracle-java6-installer
 # To switch between versions use : sudo update-alternatives --config gcc
 #
 echo "Installing GCC 4.4"
-sudo apt-get --yes install gcc-4.4 gcc-4.4-multilib g++-4.4
+sudo apt-get --yes install gcc-4.4 gcc-4.4-multilib g++-4.4 g++-4.4-multilib
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.4 20 --slave /usr/bin/g++ g++ /usr/bin/g++-4.4
 echo "Installing GCC 4.6"
-sudo apt-get --yes install gcc-4.6 gcc-4.6-multilib g++-4.6
+sudo apt-get --yes install gcc-4.6 gcc-4.6-multilib g++-4.6 g++-4.6-multilib
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 40 --slave /usr/bin/g++ g++ /usr/bin/g++-4.6
 echo "Installing GCC 4.7"
-sudo apt-get --yes install gcc-4.7 gcc-4.7-multilib g++-4.7
+sudo apt-get --yes install gcc-4.7 gcc-4.7-multilib g++-4.7 g++-4.7-multilib
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.7
 
 
