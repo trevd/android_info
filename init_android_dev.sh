@@ -166,6 +166,17 @@ sudo apt-get --yes install git-core gnupg flex bison  gperf  \
   libgl1-mesa-dev tofrodos python-markdown \
   libxml2-utils xsltproc 
 
+# Install texinfo just incase your manufacturer thinks it's a good
+# idea to realease there GPL obligations in the form of a BuildRoot 
+# Package *cough* Archos *cough*
+echo "Installing autotools, makeinfo and ffmpeg"
+sudo apt-get ---yes install texinfo
+# ... and autotools
+sudo apt-get ---yes install autotools
+# ... and ffmpeg
+sudo apt-get ---yes install ffmpeg
+
+
 ## Ubuntu Touch Recommended Tools 
 ## phablet-tools        - This contains the following programs 
 ## phablet-demo-setup phablet-dev-bootstrap  phablet-network-setup  
