@@ -53,9 +53,11 @@ echo "Installing Foreign Architecture i386 Packages [ no-recommends ]"
 sudo apt-get --no-install-recommends --yes --force-yes  install  libncurses5-dev:i386 libx11-dev:i386 \
 libreadline6-dev:i386 libgl1-mesa-glx:i386 zlib1g-dev:i386
 
-echo "Installing Additional Packages"
+echo "Installing Archiving Packages"
 sudo apt-get --yes --force-yes install unrar:amd64 lzop:amd64 xz-utils:amd64 zlib1g-dev:amd64 p7zip-full:amd64 squashfs-tools:amd64
 
+echo "Installing Android Tools ( adb and fastboot )"
+sudo apt-get --yes --force-yes install android-tools-adb:amd64 android-tools-fastboot:amd64
 
 echo "Creating udev [ /etc/udev/rules.d/51-android.rules ] rules for known android devices"
 # Create a 51-android.rules for udev - using all known vendors
