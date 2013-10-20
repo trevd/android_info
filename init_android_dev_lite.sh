@@ -58,6 +58,8 @@ sudo apt-get --yes --force-yes install unrar:amd64 lzop:amd64 xz-utils:amd64 zli
 
 echo "Installing Android Tools ( adb and fastboot )"
 sudo apt-get --yes --force-yes install android-tools-adb:amd64 android-tools-fastboot:amd64
+echo "Installing A Completely Friviolious Package ( sl )" 
+sudo apt-get --yes --force-yes install sl:amd64
 
 echo "Creating udev [ /etc/udev/rules.d/51-android.rules ] rules for known android devices"
 # Create a 51-android.rules for udev - using all known vendors
@@ -157,3 +159,4 @@ if [ ! -f /usr/bin/repo ] ; then
 fi
 
 
+sl
