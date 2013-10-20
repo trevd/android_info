@@ -1,0 +1,4 @@
+
+
+# The will insert the filename at which is printed to stdout
+find ./ -type f -iname "*.mk" -exec sed -i '1i$(info BUILD SYSTEM DEBUG {})' {} \;
