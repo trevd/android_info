@@ -1,0 +1,38 @@
+function print_usage(){
+
+	echo "Usage: download_nexus_binaries <device name> <build_number>"
+
+}
+function downloadvendorbinaries(){
+
+	
+	AOSP_DEVICE_NAME=$1
+	AOSP_BUILD_NUMBER=$2
+	GREP_FOR="https://dl.google.com.+$AOSP_DEVICE_NAME.+$AOSP_BUILD_NUMBER.+tgz"
+	if [ -z "$AOSP_BUILD_NUMBER" ] ; then 
+		curl --silent https://developers.google.com/android/nexus/drivers |  grep -o0 -E $GREP_FOR
+		return 0 ; 
+	fi	
+	SILENT=$3
+	if [ -z "$SILENT" ] ; then SILENT="--silent" ; fi
+	 
+	 
+	 echo "Grepping $GREP_FOR"
+	 rm extract-*-$1.sh ;
+	 rm extract-*-*.sh ; 
+	 rm $1*.tgz ;
+	 rm *-$1-*.tgz ;
+	 rm *-$1-*.sh.tgz ;
+	 curl $SILENT https://developers.google.com/android/nexus/drivers |  grep -o0 -E $GREP_FOR | \
+		while read -r line ;
+			do 
+				FILESH=`curl $SILENT $line | tar -xvz ` ;
+				sed -n '/\x1f\x8b/,$ p' $FILESH | tar zxv ;
+			done 
+}
+
+if [ $# -eq 0 ] ; then
+	print_usage  
+else
+	downloadvendorbinaries $*
+fi
