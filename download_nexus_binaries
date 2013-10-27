@@ -1,6 +1,7 @@
 function print_usage(){
 
-	echo "Usage: download_nexus_binaries <device name> <build_number>"
+	echo "Usage: download_nexus_binaries <device name> <build_number>\n\n"
+		"If build number is omitted then a list of all available binaries is printed"
 
 }
 function downloadvendorbinaries(){
