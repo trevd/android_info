@@ -77,7 +77,7 @@ sudo apt-get --yes --force-yes install sl:amd64
 
 echo "Installing GCC 4.2"
 sudo apt-get --install-suggests --yes install gcc-4.2:amd64 gcc-4.2-multilib:amd64 g++-4.2:amd64 g++-4.2-multilib:amd64
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.2 100 --slave /usr/bin/g++ g++ /usr/bin/g++-4.2
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.2 120 --slave /usr/bin/g++ g++ /usr/bin/g++-4.2
 echo "Installing GCC 4.3"
 sudo apt-get --install-suggests --yes install gcc-4.3:amd64 gcc-4.3-multilib:amd64 g++-4.3:amd64 g++-4.3-multilib:amd64
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.3 100 --slave /usr/bin/g++ g++ /usr/bin/g++-4.3
@@ -92,7 +92,11 @@ sudo apt-get --install-suggests --yes install gcc-4.7:amd64 gcc-4.7-multilib:amd
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 40 --slave /usr/bin/g++ g++ /usr/bin/g++-4.7
 echo "Installing GCC 4.8"
 sudo apt-get --install-suggests --yes install gcc-4.8:amd64 gcc-4.8-multilib:amd64 g++-4.8:amd64 g++-4.8-multilib:amd64
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 40 --slave /usr/bin/g++ g++ /usr/bin/g++-4.8
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 20 --slave /usr/bin/g++ g++ /usr/bin/g++-4.8
+echo "Installing GCC 4.8"
+sudo apt-get --install-suggests --yes install gcc-4.8:amd64 gcc-4.8-multilib:amd64 g++-4.8:amd64 g++-4.8-multilib:amd64
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 20 --slave /usr/bin/g++ g++ /usr/bin/g++-4.8
+
 
 echo "Creating udev [ /etc/udev/rules.d/51-android.rules ] rules for known android devices"
 # Create a 51-android.rules for udev - using all known vendors
@@ -187,7 +191,7 @@ sudo udevadm control --reload-rules
 if [ ! -f /usr/bin/repo ] ; then 
         # download the repo tool if needed
         echo "Downloading repo"
-        sudo sh -c "curl https://dl-ssl.google.com/dl/googlesource/git-repo/repo > /usr/bin/repo"
+        sudo sh -c "curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/bin/repo"
         sudo chmod 755 /usr/bin/repo
 fi
 
