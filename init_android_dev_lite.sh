@@ -21,7 +21,7 @@ function ctrl_c() {
 if [ "$SH" != "$BASH" ] ; then
 
         
-        print_status "Updating shell symlink to bash"
+        echo "Updating shell symlink to bash"
         sudo rm /bin/sh
         sudo ln -s $BASH /bin/sh
 fi
@@ -29,14 +29,28 @@ fi
 echo -e "Installing Packages\nAdding Required Repositories"          
 sudo cp /etc/apt/sources.list /etc/apt/.sources.list.backup
 
+
+sudo sh -c "echo  \"deb [ arch=amd64 ] http://archive.ubuntu.com/ubuntu/ lucid main universe multiverse\" > /etc/apt/sources.list.d/ubuntu-archive-lucid.list"
+# use old-releases.ubuntu.com for java5 jdk 
+sudo sh -c "echo  \"deb [ arch=amd64 ] http://old-releases.ubuntu.com/ubuntu hardy main multiverse\" > /etc/apt/sources.list.d/ubuntu-old-releases-hardy.list"
+sudo sh -c "echo  \"deb [ arch=amd64 ] http://old-releases.ubuntu.com/ubuntu hardy-updates main multiverse\" >> /etc/apt/sources.list.d/ubuntu-old-releases-hardy.list"
 # webupd8 ppa repositories for new / alternative java apt repositories
-sudo add-apt-repository --remove --yes ppa:webupd8team/java
-sudo add-apt-repository --yes ppa:webupd8team/java
+sudo sh -c "echo  \"deb [ arch=amd64 ] http://ppa.launchpad.net/webupd8team/java/ubuntu saucy main\" > /etc/apt/sources.list.d/webupd8team-java-saucy.list"
+
 echo "Webupd8 repository added for official oracle java jdk version 6"
 echo "Removing Previous Locks"
 sudo rm /var/lib/dpkg/lock
+echo "Killing Previous Dpkg Processes"
+sudo pkill -9 dpkg
 echo "Updating APT"
 sudo apt-get update
+
+echo "Auto Accepting Sun License for jdk5"
+sudo echo sun-java5-bin	shared/accepted-sun-dlj-v1-1 select true | sudo /usr/bin/debconf-set-selections -v
+# Install both jdk v5 you never know when you might need to build Pre Gingerbread
+echo -e "Installing Java\nInstalling sun-java5-jdk" 
+sudo apt-get --yes --force-yes install sun-java5-jdk:amd64
+
 
 # Install java 6 from webupd8
 echo "Auto Accepting Oracle License"
@@ -60,6 +74,25 @@ echo "Installing Android Tools ( adb and fastboot )"
 sudo apt-get --yes --force-yes install android-tools-adb:amd64 android-tools-fastboot:amd64
 echo "Installing A Completely Friviolious Package ( sl )" 
 sudo apt-get --yes --force-yes install sl:amd64
+
+echo "Installing GCC 4.2"
+sudo apt-get --install-suggests --yes install gcc-4.2:amd64 gcc-4.2-multilib:amd64 g++-4.2:amd64 g++-4.2-multilib:amd64
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.2 100 --slave /usr/bin/g++ g++ /usr/bin/g++-4.2
+echo "Installing GCC 4.3"
+sudo apt-get --install-suggests --yes install gcc-4.3:amd64 gcc-4.3-multilib:amd64 g++-4.3:amd64 g++-4.3-multilib:amd64
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.3 100 --slave /usr/bin/g++ g++ /usr/bin/g++-4.3
+echo "Installing GCC 4.4"
+sudo apt-get --install-suggests --yes install gcc-4.4:amd64 gcc-4.4-multilib:amd64 g++-4.4:amd64 g++-4.4-multilib:amd64
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.4 80 --slave /usr/bin/g++ g++ /usr/bin/g++-4.4
+echo "Installing GCC 4.6"
+sudo apt-get --install-suggests --yes install gcc-4.6:amd64 gcc-4.6-multilib:amd64 g++-4.6:amd64 g++-4.6-multilib:amd64
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.6
+echo "Installing GCC 4.7"
+sudo apt-get --install-suggests --yes install gcc-4.7:amd64 gcc-4.7-multilib:amd64 g++-4.7:amd64 g++-4.7-multilib:amd64
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 40 --slave /usr/bin/g++ g++ /usr/bin/g++-4.7
+echo "Installing GCC 4.8"
+sudo apt-get --install-suggests --yes install gcc-4.8:amd64 gcc-4.8-multilib:amd64 g++-4.8:amd64 g++-4.8-multilib:amd64
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 40 --slave /usr/bin/g++ g++ /usr/bin/g++-4.8
 
 echo "Creating udev [ /etc/udev/rules.d/51-android.rules ] rules for known android devices"
 # Create a 51-android.rules for udev - using all known vendors
