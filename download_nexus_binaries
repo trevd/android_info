@@ -1,7 +1,9 @@
+#!/bin/bash
+
 function print_usage(){
 
-	echo "Usage: download_nexus_binaries <device name> <build_number>\n\n"
-		"If build number is omitted then a list of all available binaries is printed"
+	echo "Usage: download_nexus_binaries <device name> <build_number>"
+	echo "	If build number is omitted then a list of all available binaries is printed"
 
 }
 function downloadvendorbinaries(){
@@ -19,11 +21,11 @@ function downloadvendorbinaries(){
 	 
 	 
 	 echo "Grepping $GREP_FOR"
-	 rm extract-*-$1.sh ;
-	 rm extract-*-*.sh ; 
-	 rm $1*.tgz ;
-	 rm *-$1-*.tgz ;
-	 rm *-$1-*.sh.tgz ;
+	 rm extract-*-$1.sh 2>/dev/null
+	 rm extract-*-*.sh 2>/dev/null
+	 rm $1*.tgz 2>/dev/null
+	 rm *-$1-*.tgz 2>/dev/null
+	 rm *-$1-*.sh.tgz 2>/dev/null
 	 curl $SILENT https://developers.google.com/android/nexus/drivers |  grep -o0 -E $GREP_FOR | \
 		while read -r line ;
 			do 
