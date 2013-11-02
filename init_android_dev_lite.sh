@@ -194,6 +194,3 @@ if [ ! -f /usr/bin/repo ] ; then
         sudo sh -c "curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/bin/repo"
         sudo chmod 755 /usr/bin/repo
 fi
-
-
-sl
