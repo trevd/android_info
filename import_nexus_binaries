@@ -1,0 +1,89 @@
+#!/bin/bash
+
+function print_usage(){
+
+	echo -e "Usage:\timport_nexus_binaries <device name> <build_number> [ local archive directory ]"
+	echo -e "\tIf build number is omitted then a list of all available binaries is printed"
+	
+
+}
+function import-vendor-drivers(){
+
+	AOSP_DEVICE_NAME=$1
+	AOSP_BUILD_NUMBER=$2
+	find $NEXUS_BINARY_DIRECTORY -name "*-$AOSP_DEVICE_NAME-$AOSP_BUILD_NUMBER-*.tgz" | \
+	while read -r vendor_drivers_archive ;
+	do 
+		cp -rv $vendor_drivers_archive .
+		
+		FILETGZ=`basename $vendor_drivers_archive`s
+		FILESH=$(tar -zxvf $FILETGZ ) ;
+		 sed -n '/\x1f\x8b/,$ p' $FILESH | tar zxv ;
+	done 
+	rm -v extract-*-$1.sh ;
+	rm -v extract-*-*.sh ; 
+	rm -v $1*.tgz ;
+	rm -v *-$1-*.tgz ;
+	rm -v *-$1-*.sh.tgz ;
+	 
+		while read -r line ;
+			do 
+				FILESH=`curl $SILENT $line | tar -xvz ` ;
+				sed -n '/\x1f\x8b/,$ p' $FILESH | tar zxv ;
+			done 
+}
+
+
+function downloadall(){
+	
+	curl --silent https://developers.google.com/android/nexus/drivers | \
+	sed -n 's/.*dl\.google\.com\/dl\/android\/aosp\/\(.*tgz\).*/\1/p' | \
+	while read -r line ;
+	do
+		if [ ! -f $line ] ; then 
+			echo $line ;
+			wget -F https://dl.google.com/dl/android/aosp/$line 
+		fi
+	done
+	return 0 ; 
+}
+function downloadvendorbinaries(){
+
+	
+	AOSP_DEVICE_NAME=$1
+	AOSP_BUILD_NUMBER=$2
+	GREP_FOR="https://dl.google.com.+$AOSP_DEVICE_NAME.+$AOSP_BUILD_NUMBER.+tgz"
+	if [ -z "$AOSP_BUILD_NUMBER" ] ; then 
+		curl --silent https://developers.google.com/android/nexus/drivers |  grep -o0 -E $GREP_FOR
+		return 0 ; 
+	fi	
+	SILENT=$3
+	if [ -z "$SILENT" ] ; then SILENT="--silent" ; fi
+	 
+	 
+	 echo "Grepping $GREP_FOR"
+	 rm extract-*-$1.sh 2>/dev/null
+	 rm extract-*-*.sh 2>/dev/null
+	 rm $1*.tgz 2>/dev/null
+	 rm *-$1-*.tgz 2>/dev/null
+	 rm *-$1-*.sh.tgz 2>/dev/null
+	 curl $SILENT https://developers.google.com/android/nexus/drivers |  grep -o0 -E $GREP_FOR | \
+		while read -r line ;
+			do 
+				FILESH=`curl $SILENT $line | tar -xvz ` ;
+				sed -n '/\x1f\x8b/,$ p' $FILESH | tar zxv ;
+			done 
+}
+
+if [ $# -eq 0 ] ; then
+	print_usage  
+	exit 1
+fi 
+if [ $# -eq 1 ] ; then
+	if [ $1 == "all" ] ; then
+		downloadall
+		exit 1
+	fi
+fi
+downloadvendorbinaries $*
+	
