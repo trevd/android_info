@@ -1,0 +1,79 @@
+#!/bin/bash
+# create_android_vendor_prebuilt - A quick helper script
+# to make creation of vendor prebuilt fragments easier
+
+# Filename as first argument
+FILENAME=$(basename $1)
+MODULE="${FILENAME%.*}"
+EXTENSION=""
+
+# filename length is the same as module length 
+# which mean we have no extension
+if [ ${#FILENAME} -ne ${#MODULE} ] ; then
+	EXTENSION="${FILENAME##*.}"
+fi
+
+
+OWNER=$2
+PATH=$3
+CLASS=""
+
+TAGS="optional"
+
+
+case $EXTENSION in
+	"ko" )
+		CLASS="SHARED_LIBRARIES"
+		if [ -z "$PATH" ] ; then 
+			PATH="\$(TARGET_OUT_SHARED_LIBRARIES)/modules"
+		fi
+	;;
+	"so" )
+		CLASS="SHARED_LIBRARIES"
+		if [ -z "$PATH" ] ; then 
+			PATH="\$(TARGET_OUT_SHARED_LIBRARIES)"
+		fi
+	;;
+	"bin" )
+		CLASS="FIRMWARE"
+		if [ -z "$PATH" ] ; then 
+			PATH="\$(TARGET_OUT_ETC)"
+		else
+			PATH="\$(TARGET_OUT_ETC)/$PATH"
+		fi
+	;;
+	"ini" )
+		CLASS="FIRMWARE"
+		if [ -z "$PATH" ] ; then 
+			PATH="\$(TARGET_OUT_ETC)"
+		else
+			PATH="\$(TARGET_OUT_ETC)/$PATH"
+		fi
+	;;
+	"" ) 
+		CLASS="EXECUTABLES"
+		if [ -z "$PATH" ] ; then 
+			PATH="\$(TARGET_OUT_VENDOR_EXECUTABLES)"
+		fi
+	;;
+	  * )
+	;;
+esac
+	
+
+
+OUT_STR="\ninclude \$(CLEAR_VARS)\n"\
+"LOCAL_MODULE := $MODULE"
+if [ -z "$EXTENSION" ] ; then 
+OUT_STR="$OUT_STR\nLOCAL_SRC_FILES := $MODULE"
+else
+OUT_STR="$OUT_STR\nLOCAL_SRC_FILES := $MODULE.$EXTENSION\n"\
+"LOCAL_MODULE_SUFFIX := .$EXTENSION"
+fi
+OUT_STR="$OUT_STR\nLOCAL_MODULE_OWNER := $OWNER\n"\
+"LOCAL_MODULE_TAGS := $TAGS\n"\
+"LOCAL_MODULE_CLASS := $CLASS\n"\
+"LOCAL_MODULE_PATH := $PATH\n"\
+"include \$(BUILD_PREBUILT)\n"
+
+echo -e $OUT_STR 
