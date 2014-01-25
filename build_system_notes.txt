@@ -1,0 +1,49 @@
+The Android Build System - Additional Notes
+-------------------------------------------
+
+Variables : Extend using the += operator
+            Redefine using :=
+            
+Include Paths : Use the pathmap_INCL build system variable to specify  
+                an include path that is common to all projects
+        
+Example:
+
+pathmap_INCL += bluedroid:system/bluetooth/bluedroid/include
+
+  
+Getting Around
+--------------
+
+lunch/envsetup.sh
+
+The Build System has a number of shortcuts for getting around
+
+Building Individual Projects - 
+
+$TARGET_GCC_VERSION
+$ANDROID_EABI_TOOLCHAIN
+$ANDROID_TOOLCHAIN
+$ANDROID_QTOOLS
+$ANDROID_DEV_SCRIPTS
+$ANDROID_BUILD_PATHS
+$ANDROID_JAVA_TOOLCHAIN
+$ANDROID_PRE_BUILD_PATHS
+$ANDROID_PRODUCT_OUT
+$ANDROID_HOST_OUT
+$ANDROID_BUILD_TOP
+$TARGET_BUILD_TYPE
+$TARGET_PRODUCT
+$TARGET_BUILD_VARIANT
+$TARGET_BUILD_TYPE
+$TARGET_BUILD_APPS
+$JAVA_HOME
+$ARM_EABI_TOOLCHAIN
+$OUT
+$OPROFILE_EVENTS_DIR
+$BUILD_ENV_SEQUENCE_NUMBER
+$PROMPT_COMMAND
+
+
+
+
