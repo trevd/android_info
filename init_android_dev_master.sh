@@ -1,8 +1,13 @@
 #!/bin/bash
 
 LOCAL_CCACHE_DIR=
+LOCAL_OUT_DIR_COMMON_BASE=
 
-test -z $CCACHE_DIR && unset LOCAL_CCACHE_DIR ; echo "CCACHE_DIR Already Set"
+if test ! -z $CCACHE_DIR ; then 
+	unset LOCAL_CCACHE_DIR
+	echo "CCACHE_DIR Already Set Externally"
+fi
+
 if test ! -z $LOCAL_CCACHE_DIR  ; then
 	echo "Setting up CCACHE"
 	# only export use_ccache if we don't already
@@ -10,6 +15,12 @@ if test ! -z $LOCAL_CCACHE_DIR  ; then
 	test -z $CCACHE_DIR && echo "export CCACHE_DIR=$LOCAL_CCACHE_DIR" >> $HOME/.bashrc 
 fi 
 
+if test ! -z $OUT_DIR_COMMON_BASE ; then 
+	unset LOCAL_OUT_DIR_COMMON_BASE
+	echo "OUT_DIR_COMMON_BASE Already Set Externally"
+else
+	test ! -z $LOCAL_OUT_DIR_COMMON_BASE && echo "export OUT_DIR_COMMON_BASE=$LOCAL_OUT_DIR_COMMON_BASE" >> $HOME/.bashrc 
+fi
 
 REPO_CMD=/usr/local/bin/repo
 if [ ! -f $REPO_CMD ] ; then 
