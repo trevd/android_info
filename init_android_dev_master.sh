@@ -1,4 +1,3 @@
-# Android ( AOSP ) Development Environment Setup script for *buntu 14.04
 #!/bin/bash
 #
 # Copyright (C) 2014 Trevor Drake
