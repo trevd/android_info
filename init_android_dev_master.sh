@@ -31,6 +31,12 @@
 # Building other branches:
 # See http://source.android.com/source/initializing.html for information
 #
+# Compatibility Notes:
+# This script has been tested with lubuntu 14.04 but should be good
+# for all flavours of ubuntu. 
+# It "should" be compatible with debian and any of distro which uses
+# apt-get as it's package manager, however YMMV :). 
+#
 # Usage :
 # init_android_dev_master.sh <CCACHE_DIR> <OUT_DIR_COMMON_BASE>
 
